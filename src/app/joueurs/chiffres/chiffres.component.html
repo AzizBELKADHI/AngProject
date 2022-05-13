@@ -1,0 +1,187 @@
+<div class="main-content">
+    <div class="info" align="center">
+        <div class="icon icon-primary">
+            <i class="material-icons">chat</i>
+        </div>
+        <p>Cette page génère les statistiques des joueurs depuis son ouverture jusqu'aujourd'hui.</p>
+        <p> Vous avez l'option de choisir la période de consultation.
+        </p>
+        <br>
+        <h4 class="info-title">Choisir la période de consultation</h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-md-offset-3">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="r_casual">
+                    <i class="material-icons">library_books</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Date de début</h4>
+                    <label class="label-control">Date Picker</label>
+                    <angular2-date-picker [(ngModel)]="debut" [settings]="settings"></angular2-date-picker>
+                    <div class="bottom-one"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="r_casual">
+                    <i class="material-icons">library_books</i>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Date de fin</h4>
+
+                    <label class="label-control">Date Picker</label>
+                    <angular2-date-picker [(ngModel)]="fin" [settings]="settings" (onDateSelect)="onDateSelect()"></angular2-date-picker>
+                    <div class="bottom-one"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-one"></div>
+  
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card card-chart">
+                <div class="card-header" data-background-color="w_casual">
+                    <dx-chart palette="" [dataSource]="architecturesInfo">
+                        <dxo-title text="Nombre des joueurs par mois">
+                            <dxo-font [size]="20"></dxo-font>
+                        </dxo-title>
+                        <dxo-adaptive-layout [width]="450"> </dxo-adaptive-layout>
+                        <dxi-series valueField="nombreJ" name="Mois"></dxi-series>
+                        <dxo-common-series-settings #seriesSettings argumentField="mois" [type]="spline">
+                            <dxo-label>
+                                <dxo-format type="decimal"></dxo-format>
+                            </dxo-label>
+                        </dxo-common-series-settings>
+                        <dxo-margin [bottom]="10"></dxo-margin>
+                        <dxo-common-axis-settings>
+                            <dxo-grid [visible]="true"></dxo-grid>
+                        </dxo-common-axis-settings>
+                        <dxo-argument-axis [allowDecimals]="false" [axisDivisionFactor]="40"></dxo-argument-axis>
+                        <dxo-export [enabled]="true"></dxo-export>
+                        <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                        <dxo-crosshair [enabled]="true" color="#949494" [width]="3" dashStyle="dot">
+                            <dxo-label [visible]="true" backgroundColor="#949494">
+                                <dxo-font color="#fff" [size]="10">
+                                </dxo-font>
+                            </dxo-label>
+                        </dxo-crosshair>
+                    </dx-chart>
+                    <div class="options">
+                        <div class="caption" style="color:#133659">Option</div>
+                        <div class="option">
+                                <span style="color:#133659">Période :</span>
+                                <dx-select-box [dataSource]="types2" (onItemClick)="change($event)">
+                                </dx-select-box>
+                            <span style="color:#133659">Type de série :</span>
+                            <dx-select-box [dataSource]="types1" [(value)]="seriesSettings.type">
+                            </dx-select-box>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Nombre des joueurs</h4>
+                    <p class="category">Par mois</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-one"></div>
+    <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+            <div class="card card-chart">
+                <div class="card-header" data-background-color="w_casual">
+                    <dx-pie-chart #seriesSettings3 id="pie" type="doughnut" palette="" [dataSource]="data">
+                        <dxo-title text="Nombre des joueurs par type de compte">
+                            <dxo-font [size]="20"></dxo-font>
+                        </dxo-title>
+                        <dxi-series argumentField="argument" valueField="value">
+                            <dxo-label [visible]="true">
+                                <dxo-connector [visible]="true"></dxo-connector>
+                            </dxo-label>
+                        </dxi-series>
+                        <dxo-export [enabled]="true"></dxo-export>
+                        <dxo-legend [margin]="0" horizontalAlignment="right" verticalAlignment="top"></dxo-legend>
+                        <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip2">
+                        </dxo-tooltip>
+                    </dx-pie-chart>
+                    <div class="options">
+                        <div class="caption" style="color:#133659">Option</div>
+                        <div class="option">
+                            <span style="color:#133659">Type de série :</span>
+                            <dx-select-box [dataSource]="types" [(value)]="seriesSettings3.type">
+                            </dx-select-box>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Nombre des joueurs</h4>
+                    <p class="category">Par type de compte</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 ml-auto mr-auto">
+            <div class="card card-chart">
+                <div class="card-header" data-background-color="w_casual">
+                    <dx-pie-chart #seriesSettings2 id="pie" type="pie" palette="" [dataSource]="olympicMedals" style="height:400px; max-width:450px; margin: 0 auto">
+                        <dxo-title text="Nombre des joueurs par sexe">
+                            <dxo-font [size]="20"></dxo-font>
+                        </dxo-title>
+                        <dxo-legend orientation="horizontal" itemTextPosition="left" horizontalAlignment="left" verticalAlignment="bottom" [columnCount]="2"></dxo-legend>
+                        <dxo-export [enabled]="true"></dxo-export>
+                        <dxi-series argumentField="sexe" valueField="nbJoueur">
+                            <dxo-label [visible]="true" format="fixedPoint" [customizeText]="customizeLabel">
+                                <dxo-connector [visible]="true" [width]="1"></dxo-connector>
+                            </dxo-label>
+                        </dxi-series>
+                    </dx-pie-chart>
+                    <div class="options">
+                        <div class="caption" style="color:#133659">Option</div>
+                        <div class="option">
+                            <span style="color:#133659">Type de série :</span>
+                            <dx-select-box [dataSource]="types" [(value)]="seriesSettings2.type">
+                            </dx-select-box>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Nombre des joueurs</h4>
+                    <p class="category">Par sexe</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-one"></div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="card card-chart">
+                <div class="card-header" data-background-color="w_casual">
+                    <dx-chart id="chart" [dataSource]="userData" [equalBarWidth]=false palette="harmony light">
+                        <dxo-title text="Nombre des joueurs par tranche d'âge">
+                            <dxo-font [size]="20"></dxo-font>
+                        </dxo-title>
+                        <dxo-export [enabled]="true"></dxo-export>
+                        <dxo-common-series-settings argumentField="age" type="bar" valueField="number">
+                            <dxo-size [height]="450"></dxo-size>
+                            <dxo-label [visible]="true" [format]="{type: 'fixedPoint',precision: '0'}">
+                            </dxo-label>
+                        </dxo-common-series-settings>
+                        <dxo-series-template nameField="age"></dxo-series-template>
+                    </dx-chart>
+                </div>
+                <div class="card-content">
+                    <h4 class="card-title">Nombre des joueurs</h4>
+                    <p class="category">Par tranche d'âge</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>

@@ -1,0 +1,194 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="info" align="center">
+            <div class="icon icon-primary">
+                <i class="material-icons">chat</i>
+            </div>
+            <p>Cette page génère les statistiques de l'entreprise depuis son ouverture jusqu'aujourd'hui.</p>
+            <p> Vous avez l'option de choisir la période de consultation.
+            </p>
+            <br>
+            <h4 class="info-title">Choisir la période de consultation</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-3">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="r_casual">
+                        <i class="material-icons">library_books</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Date de début</h4>
+                        <label class="label-control">Date Picker</label>
+                        <angular2-date-picker [(ngModel)]="debut" [settings]="settings"></angular2-date-picker>
+                        <div class="bottom-one"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="r_casual">
+                        <i class="material-icons">library_books</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Date de fin</h4>
+
+                        <label class="label-control">Date Picker</label>
+                        <angular2-date-picker [(ngModel)]="fin" [settings]="settings" (onDateSelect)="onDateSelect()"></angular2-date-picker>
+                        <div class="bottom-one"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-one"></div>
+
+
+
+
+        <!--Chart1-->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="card card-chart">
+                    <div class="card-header" data-background-color="w_casual">
+                        <dx-chart palette="" [dataSource]="countriesInfo" title="Chiffre d'affaire total">
+
+                            <dxo-adaptive-layout [width]="450"> </dxo-adaptive-layout>
+                            <dxi-series valueField="nombre" name="Mois"></dxi-series>
+
+                            <dxo-common-series-settings #seriesSettings argumentField="mois" [type]="line">
+                                <dxo-label>
+                                    <dxo-format type="decimal"></dxo-format>
+                                </dxo-label>
+                            </dxo-common-series-settings>
+                            <dxo-margin [bottom]="10"></dxo-margin>
+                            <dxo-common-axis-settings>
+                                <dxo-grid [visible]="true"></dxo-grid>
+                            </dxo-common-axis-settings>
+
+                            <dxo-argument-axis [allowDecimals]="false" [axisDivisionFactor]="40"></dxo-argument-axis>
+                            <dxo-export [enabled]="true"></dxo-export>
+
+                            <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip"></dxo-tooltip>
+                            <dxo-crosshair [enabled]="true" color="#949494" [width]="3" dashStyle="dot">
+                                <dxo-label [visible]="true" backgroundColor="#949494">
+                                    <dxo-font color="#fff" [size]="10">
+                                    </dxo-font>
+                                </dxo-label>
+                            </dxo-crosshair>
+                        </dx-chart>
+                    </div>
+                    <div class="card-content">
+                        <br>
+                        <h4 class="card-title" style="color:#133659"> Le chiffre d'affaire à la période choisit est : {{CA}}</h4>
+                        <div class="options">
+                            <div class="caption" style="color:#133659">Options</div>
+                            <div class="option">
+                                <span style="color:#133659">Période :</span>
+                                <dx-select-box id="select1" [dataSource]="types" (onItemClick)="change($event)">
+                                </dx-select-box>
+                                <span style="color:#133659">Type de série :</span>
+                                <dx-select-box [dataSource]="types1" [(value)]="seriesSettings.type">
+                                </dx-select-box>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-one"></div>
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <!--Chart2-->
+                <div class="card card-chart">
+                    <div class="card-header" data-background-color="w_casual">
+                        <dx-pie-chart #seriesSettings3 id="pie" type="pie" title="Le total des mises et des gains" palette="" [dataSource]="miseGain">
+                            <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="right" verticalAlignment="bottom" [columnCount]="4"></dxo-legend>
+                            <dxo-export [enabled]="true"></dxo-export>
+                            <dxi-series argumentField="MiseGain" valueField="TotalMiseGain">
+                                <dxo-label [visible]="true" position="columns" [customizeText]="customLabel">
+                                    <dxo-font [size]="16"></dxo-font>
+                                    <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+                                </dxo-label>
+                            </dxi-series>
+                        </dx-pie-chart>
+                        <div class="options">
+                            <div class="caption" style="color:#133659">Option</div>
+                            <div class="option">
+                                <span style="color:#133659">Type de série :</span>
+                                <dx-select-box [dataSource]="types2" [(value)]="seriesSettings3.type">
+                                </dx-select-box>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Montant total</h4>
+                        <p class="category">Par mise et par gain</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ml-auto mr-auto">
+                <!--Chart4-->
+                <div class="card card-chart">
+                    <div class="card-header" data-background-color="w_casual">
+                        <dx-pie-chart #seriesSettings4 id="pie" type="doughnut" title="Chiffre d'affaire par catégorie de jeu" palette="" [dataSource]="olympicMedals"
+                            (onPointClick)="pointClickHandler($event)">
+                            <dxo-export [enabled]="true"></dxo-export>
+                            <dxo-legend [margin]="0" horizontalAlignment="right" verticalAlignment="top"></dxo-legend>
+                            <dxi-series argumentField="categorie" valueField="valeur">
+                                <dxo-hover-style color="#ffd700"></dxo-hover-style>
+                                <dxo-label [visible]="true" position="columns" [customizeText]="customizeLabel">
+                                    <dxo-font [size]="13"></dxo-font>
+                                    <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+                                </dxo-label>
+                            </dxi-series>
+                        </dx-pie-chart>
+                        <div class="options">
+                            <div class="caption" style="color:#133659">Option</div>
+                            <div class="option">
+                                <span style="color:#133659">Type de série :</span>
+                                <dx-select-box [dataSource]="types2" [(value)]="seriesSettings4.type">
+                                </dx-select-box>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Chiffre d'affaire</h4>
+                        <p class="category">Par catégorie de jeu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-one"></div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <!--Chart3-->
+                <div class="card card-chart">
+                    <div class="card-header" data-background-color="w_casual">
+                        <dx-chart id="chart" [dataSource]="dataSource" [equalBarWidth]=false palette="soft">
+                            <dxo-title text="Les ventes par méthode de paiement">
+                            </dxo-title>
+                            <dxo-export [enabled]="true"></dxo-export>
+                            <dxo-common-series-settings #seriesSettings2 argumentField="methode" type="bar" valueField="number">
+                                <dxo-label [visible]="true" [format]="{
+                                type: 'fixedPoint',
+                                precision: '0'
+                            }">
+                                </dxo-label>
+                            </dxo-common-series-settings>
+                            <dxo-series-template nameField="methode"></dxo-series-template>
+                        </dx-chart>
+                    </div>
+
+                    <div class="card-content">
+                        <h4 class="card-title">Les ventes</h4>
+                        <p class="category">Par méthode de paiement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

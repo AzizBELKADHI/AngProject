@@ -1,0 +1,66 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text" data-background-color="r_casual">
+                    <h4 class="card-title">Carte</h4>
+                </div>
+                <div class="card-content">
+                    <dx-map #map [controls]="true" [markerIconSrc]="mapMarkerUrl" [markers]="markers" [zoom]="14" [height]="400" width="100%"
+                        [provider]="mapProviders[0].key" [type]="mapTypes[0].key">
+                    </dx-map>
+
+                    <div class="options">
+                        <div class="caption">Options</div>
+
+                        <span>Machines </span>
+                        <form>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id="check1" name="optionsRadios" (change)="checkCustomRunpay($event)">
+                                Runpay
+                                <img src="/assets/img/marquer/MapMarker_PushPin_Left_Red.png" id="responsive-image" style="max-width:16px; height:auto; max-height:16px;">
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id="check2" name="optionsRadios" (change)="checkCustomWowpay($event)">
+                                WowPay
+                                <img src="/assets/img/marquer/MapMarker_PushPin_Left_Blue.png" id="responsive-image" style="max-width:16px; height:auto; max-height:16px;">
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" id="check3" name="optionsRadios" (change)="checkCustomTous($event)" checked>
+                                Tous 
+                                <img src="/assets/img/marquer/MapMarker_PushPin_Left_Black.png" id="responsive-image" style="max-width:16px; height:auto; max-height:16px;">
+                            </label>
+                        </div>
+
+                    </form>
+                        <div class="option">
+                            <span>Fournisseur de carte</span>
+                            <dx-select-box [dataSource]="mapProviders" displayExpr="name" valueExpr="key" [(value)]="map.provider">
+                            </dx-select-box>
+                        </div>
+                        <div class="option">
+                            <span>Type de carte</span>
+                            <dx-select-box [dataSource]="mapTypes" displayExpr="name" valueExpr="key" [(value)]="map.type">
+                            </dx-select-box>
+                        </div>
+                        <span>Marqueurs de carte</span>
+                        <div class="option">
+                            <dx-check-box id="use-custom-markers" [value]="true" text="Utiliser des icônes de marqueur personnalisées" (onValueChanged)="checkCustomMarker($event)">
+                            </dx-check-box>
+                        </div>
+                        <div class="option">
+                            <dx-button id="show-tooltips" text="Afficher tout les marqueurs" (onClick)="showTooltips()">
+                            </dx-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="main-content">
+    <div class="info" align="center">
+        <div class="icon icon-primary">
+            <i class="material-icons">chat</i>
+        </div>
+        <p>Cette page contient la liste des réclamations et leurs statistiques.</p>
+            <p>La génération des statistiques demande le choix de la période de consultation.</p>
+    </div>
+
+
+    <div class="nav-center">
+        <ul class="nav nav-pills nav-pills-blue nav-pills-icons" role="tablist">
+            <li>
+                <a href="#description-1" role="tab" data-toggle="tab">
+                    <i class="material-icons">compare_arrows</i> Gérer réclamations
+                </a>
+            </li>
+            <li>
+                <a href="#schedule-1" role="tab" data-toggle="tab">
+                    <i class="material-icons">stars</i> Statistiques réclamations
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+
+    <div class="tab-content">
+        <div class="tab-pane" id="description-1">
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="r_casual">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="card-content">
+                        <dx-data-grid id="gridContainer" [dataSource]="dataSource" (onRowRemoving)="removeReclamation($event)" (onRowUpdating)="onRowUpdating($event)"
+                            (onRowInserting)="onRowInserting($event)">
+
+                            <dxo-paging [enabled]="true"></dxo-paging>
+                            <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+                                <dxo-popup title="Gestion de réclamation" [showTitle]="true" [width]="700" [height]="250" [position]="{ my: 'center', at: 'center', of: window }">
+                                </dxo-popup>
+                            </dxo-editing>
+
+                            <dxi-column dataField="ID" caption="ID Reclamation" alignment="center" [width]="100" [editorOptions]="{ disabled: true }"></dxi-column>
+                            <dxi-column dataField="Type" caption="Type Reclamation" alignment="center" [width]="250">
+                                <dxo-lookup [dataSource]="states" displayExpr="Name" valueExpr="Name">
+                                </dxo-lookup>
+                            </dxi-column>
+                            <dxi-column dataField="Nombre" caption="Nb Reclamation" alignment="center" [width]="180"></dxi-column>
+                            <dxi-column dataField="Date_Reclamation" caption="Date Reclamation" dataType="date" alignment="center" [width]="200" [editorOptions]="{ disabled: true }">
+                            </dxi-column>
+                        </dx-data-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane" id="schedule-1">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="row">
+                    <div class="card">
+                            <div class="card-header card-header-icon" data-background-color="b_casual">
+                                    <i class="material-icons">equalizer</i>
+                                </div>
+                                <div class="card-content" data-background-color="w_casual">
+                            <dx-funnel id="funnel" [dataSource]="data" argumentField="argument" valueField="value" palette="" style="height:400px; max-width:450px; margin: 0 auto">
+                                <dxo-title text="Les statistiques des réclamations"></dxo-title>
+                                <dxo-tooltip [enabled]="true" [format]="fixedPoint">
+                                </dxo-tooltip>
+                                <dxo-item>
+                                    <dxo-border [visible]="true">
+                                    </dxo-border>
+                                </dxo-item>
+                                <dxo-export [enabled]="true"></dxo-export>
+                                <dxo-label [visible]="true" position="inside" backgroundColor="none" [customizeText]="customizeText"></dxo-label>
+                            </dx-funnel>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h4 class="card-title">Choisir date </h4>
+                                    <label class="label-control">Date Picker</label>
+                                    <angular2-date-picker [(ngModel)]="debut" [settings]="settings" (onDateSelect)="onDateSelect()"></angular2-date-picker> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+<div class="bottom-three"></div>

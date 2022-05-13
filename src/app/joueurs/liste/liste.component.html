@@ -1,0 +1,232 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="info" align="center">
+            <div class="icon icon-primary">
+                <i class="material-icons">chat</i>
+            </div>
+            <p>Cette page comporte la liste des mises, la liste des gains et la liste des joueurs VIP.</p>
+            <p>Pour générer ces trois listes, il faut choisir la période de consultation.</p>
+            <br>
+            <h4 class="info-title">Choisir la période de consultation</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-3">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="b_casual">
+                        <i class="material-icons">library_books</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Date de début</h4>
+                        <label class="label-control">Date Picker</label>
+                        <angular2-date-picker [(ngModel)]="dateD" [settings]="settings" (onDateSelect)="onDateSelect()"></angular2-date-picker>
+                        <div class="bottom-one"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="b_casual">
+                        <i class="material-icons">library_books</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Date de fin</h4>
+
+                        <label class="label-control">Date Picker</label>
+                        <angular2-date-picker [(ngModel)]="dateF" [settings]="settings" (onDateSelect)="onDateSelect()"></angular2-date-picker>
+                        <div class="bottom-one"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bottom-one"></div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="nav-center">
+                    <ul class="nav nav-pills nav-pills-red nav-pills-icons" role="tablist">
+                        <li>
+                            <a href="#description-1" role="tab" data-toggle="tab">
+                                <i class="material-icons">compare_arrows</i> Liste des mises
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#schedule-1" role="tab" data-toggle="tab">
+                                <i class="material-icons">attach_money</i> Liste des gains
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tasks-1" role="tab" data-toggle="tab">
+                                <i class="material-icons">stars</i> Classement des joueurs VIP
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane" id="description-1">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-icon" data-background-color="r_casual">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <div class="card-content">
+                                <h4 class="card-title">Liste des mises totales et par personne</h4>
+                                <!-- Table 1-->
+                                
+                                <dx-data-grid id="gridContainer" [dataSource]="joueursMises">
+                                    <dxo-filter-row [visible]="showFilterRow" [applyFilter]="currentFilter"></dxo-filter-row>
+                                    <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+                                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Recherche..."></dxo-search-panel>
+                                    <dxi-column dataField="ID_Compte" caption="ID Compte" alignment="center">
+                                        <dxo-header-filter [groupInterval]="10000"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="Nom" caption="Nom" alignment="center">
+                                        <dxo-header-filter [dataSource]="orderHeaderFilter"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="Prenom" caption="Prenom" alignment="center"></dxi-column>
+                                    <dxi-column dataField="NombreMises" alignment="center">
+                                        <dxo-header-filter [dataSource]="saleAmountHeaderFilter"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="TotalMises" caption="Total Mises" alignment="center" format="decimal"></dxi-column>
+                                    <dxi-column dataField="MoyenneMises" caption="Moyenne Mises" alignment="center" format="decimal"></dxi-column>
+
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,100,500]" [showInfo]="true">
+                                    </dxo-pager>
+                                    <dxo-export [enabled]="true" fileName="Liste_Mises"></dxo-export>
+                                </dx-data-grid>
+                                <div class="options">
+                                    <div class="caption">Options</div>
+
+                                    <div class="option">
+                                        <dx-check-box text="Filtrer Ligne" [(value)]="showFilterRow" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                    <div class="option">
+                                        <dx-check-box text="Entête Filtrer" [(value)]="showHeaderFilter" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end content-->
+                        </div>
+                        <!--  end card  -->
+                    </div>
+                </div>
+                <!-- end col-md-12 -->
+
+                <div class="tab-pane" id="schedule-1">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-icon" data-background-color="r_casual">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <div class="card-content">
+                                <h4 class="card-title">Liste des gains par joueurs </h4>
+                                <!-- Table 2-->
+                                <dx-data-grid id="gridContainer" [dataSource]="joueursGains">
+                                    <dxo-filter-row [visible]="showFilterRow" [applyFilter]="currentFilter"></dxo-filter-row>
+                                    <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+                                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Recherche..."></dxo-search-panel>
+                                    <dxi-column dataField="ID_Compte" caption="ID Compte" alignment="center">
+                                        <dxo-header-filter [groupInterval]="10000"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="Nom" caption="Nom" alignment="center">
+                                        <dxo-header-filter [dataSource]="orderHeaderFilter"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="Prenom" caption="Prenom" alignment="center"></dxi-column>
+                                    <dxi-column dataField="NombreGains" caption="Nombre Gain" alignment="center">
+                                        <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+                                    </dxi-column>
+                                    <dxi-column dataField="TotalGains" caption="Total Gain" alignment="center" format="decimal">
+                                        <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+                                    </dxi-column>
+
+                                    <dxi-column dataField="MoyenneGains" caption="Moyenne Gain" alignment="center" format="decimal"></dxi-column>
+
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,100,500]" [showInfo]="true">
+                                    </dxo-pager>
+                                    <dxo-export [enabled]="true" fileName="Liste_Gain"></dxo-export>
+
+                                </dx-data-grid>
+                                <div class="options">
+                                    <div class="caption">Options</div>
+
+                                    <div class="option">
+                                        <dx-check-box text="Filtrer Ligne" [(value)]="showFilterRow" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                    <div class="option">
+                                        <dx-check-box text="Entête Filtrer" [(value)]="showHeaderFilter" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end content-->
+                        </div>
+                        <!--  end card  -->
+                    </div>
+                    <!-- end col-md-12 -->
+                </div>
+                <div class="tab-pane" id="tasks-1">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-icon" data-background-color="r_casual">
+                                <i class="material-icons">assignment</i>
+                            </div>
+                            <div class="card-content">
+                                <h4 class="card-title">Liste des joueurs VIP</h4>
+                                <!-- Table 3-->
+                                <dx-data-grid id="gridContainer" [dataSource]="joueursMises" [selectedRowKeys]="[1, 4, 7]" keyExpr="ID_Compte">
+                                    <dxo-filter-row [visible]="showFilterRow" [applyFilter]="currentFilter"></dxo-filter-row>
+                                    <dxo-header-filter [visible]="showHeaderFilter"></dxo-header-filter>
+                                    <dxo-search-panel [visible]="true" [width]="240" placeholder="Recherche..."></dxo-search-panel>
+
+                                    <dxo-selection mode="multiple"></dxo-selection>
+                                    <dxi-column dataField="ID_Compte" caption="ID Compte" alignment="center"></dxi-column>
+                                    <dxi-column dataField="Nom" caption="Nom" alignment="center"></dxi-column>
+                                    <dxi-column dataField="Prenom" caption="Prenom" alignment="center"></dxi-column>
+                                    <dxi-column dataField="TotalMises" caption="Total Mises" alignment="center" format="decimal"></dxi-column>
+
+                                    <dxo-summary [calculateCustomSummary]="calculateSelectedRow">
+                                        <dxi-total-item name="SelectedRowsSummary" summaryType="custom" valueFormat="decimal" displayFormat="Somme: {0}" showInColumn="TotalMises">
+                                        </dxi-total-item>
+                                    </dxo-summary>
+
+
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,100,500]" [showInfo]="true">
+                                    </dxo-pager>
+                                    <dxo-export [enabled]="true" fileName="Liste_Joueurs_VIP"></dxo-export>
+
+                                </dx-data-grid>
+                                <dx-button text="Calculer somme" (onClick)="calculateSummary()"></dx-button>
+
+                                <div class="options">
+                                    <div class="caption">Options</div>
+
+                                    <div class="option">
+                                        <dx-check-box text="Filtrer Ligne" [(value)]="showFilterRow" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                    <div class="option">
+                                        <dx-check-box text="Entête Filter" [(value)]="showHeaderFilter" (onValueChanged)="clearFilter()"></dx-check-box>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end content-->
+                        </div>
+                        <!--  end card  -->
+                    </div>
+                    <!-- end col-md-12 -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

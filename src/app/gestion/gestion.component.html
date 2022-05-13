@@ -1,0 +1,39 @@
+<div class="main-content">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-icon" data-background-color="r_casual">
+                <i class="material-icons">assignment</i>
+            </div>
+            <div class="card-content">
+
+                <dx-data-grid id="gridContainer" [dataSource]="users" (onRowRemoving)="logEvent($event)" (onRowUpdating)="onRowUpdating($event)" (onRowInserting)="onRowInserting($event)">
+
+                    <dxo-paging [enabled]="true"></dxo-paging>
+                    <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+                        <dxo-popup title="Les informations de l'utilisateur" [showTitle]="true" [width]="700" [height]="400" [position]="{ my: 'center', at: 'center', of: window }">
+                        </dxo-popup>
+                    </dxo-editing>
+
+                    <dxi-column dataField="ID" caption="ID" [width]="45" alignment="center" [editorOptions]="{ disabled: true }"></dxi-column>
+                    <dxi-column dataField="Pseudo" caption="Pseudo" alignment="center"></dxi-column>
+                    <dxi-column dataField="Mdp" caption="Mot de passe" alignment="center"></dxi-column>
+                    <dxi-column dataField="Nom" caption="Nom" alignment="center"></dxi-column>
+                    <dxi-column dataField="Prenom" caption="Prenom" alignment="center"></dxi-column>
+                    <dxi-column dataField="Email" caption="Email" [width]="170" alignment="center"></dxi-column>
+                    <dxi-column dataField="EtatCompte" caption="Etat compte" alignment="center" [width]="90">
+                        <dxo-lookup [dataSource]="etat" displayExpr="Name" valueExpr="Name">
+                        </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="TypeCompte" caption="Type compte" alignment="center">
+                        <dxo-lookup [dataSource]="type" displayExpr="Name" valueExpr="Name">
+                        </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataType="date" dataField="DateInscrit" caption="Date Inscrit" [width]="110" alignment="center" [editorOptions]="{ disabled: true }"></dxi-column>
+                    
+                </dx-data-grid>
+
+            </div>
+           
+        </div>
+    </div>
+</div>

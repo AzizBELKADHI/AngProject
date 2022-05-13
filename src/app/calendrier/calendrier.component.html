@@ -1,0 +1,52 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="header text-center">
+    
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="card card-calendar">
+                        <div class="card-content" class="ps-child">
+                            <dx-scheduler
+                            [dataSource]="appointmentsData"
+                            [views]='["day", "week", "month"]'
+                            currentView="week"
+                            [startDayHour]="9"
+                            [endDayHour]="19"
+                            [currentDate]="currentDate"
+                            [height]="600"
+                            (onAppointmentAdded)="onAppointmentAdded($event)"
+                            (onAppointmentUpdated)="onAppointmentUpdated($event)"
+                            (onAppointmentDeleted)="onAppointmentDeleted($event)">
+                            <dxo-editing #editingOptions
+                                [allowAdding]="true"
+                                [allowUpdating]="true"
+                                [allowDeleting]="true"
+                                [allowResizing]="true"
+                                [allowDragging]="true"
+                            ></dxo-editing>
+                        </dx-scheduler>
+                        <div class="options">
+                            <div class="caption">Options</div>
+                            <div class="option">
+                                <dx-check-box text="Autoriser l'ajout" [(value)]="editingOptions.allowAdding"></dx-check-box>
+                            </div>
+                            <div class="option">    
+                                <dx-check-box text="Autoriser la suppression" [(value)]="editingOptions.allowDeleting"></dx-check-box>
+                            </div>
+                            <div class="option">    
+                                <dx-check-box text="Autoriser la modification" [(value)]="editingOptions.allowUpdating"></dx-check-box>
+                            </div>
+                            <div class="option">    
+                                <dx-check-box text="Autoriser le redimensionnement" [(value)]="editingOptions.allowResizing"></dx-check-box>
+                            </div>
+                            <div class="option">    
+                                <dx-check-box text="Autoriser le glisser" [(value)]="editingOptions.allowDragging"></dx-check-box>
+                            </div>
+                        </div> 
+                        </div>  
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
